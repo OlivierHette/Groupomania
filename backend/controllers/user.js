@@ -35,6 +35,7 @@ exports.signup = (req, res, next) => {
 }
 
 exports.login = (req, res, next) => {
+    console.log('Requete body: \n', req.body);
     User.findOne({ where: { email: req.body.email }})
         .then(user => {
             if(!user) return res.status(404).json({ error: 'Utilisateur non trouvé !' })
@@ -42,7 +43,7 @@ exports.login = (req, res, next) => {
             bcrypt.compare(req.body.pass, user.pass)
                 .then(valid => {
                     res.status(200).json({
-                        userId: user.id,
+                        id: user.id,
                         token: jwt.sign(
                             { userId: user.id },
                             'RANDOM_TOKEN',
