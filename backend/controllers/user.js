@@ -33,3 +33,24 @@ exports.signup = (req, res, next) => {
         return res.status(401).json({ error: 'Le mot de passe doit avoir au moins 8 caractères, un nombre, une minuscule, et une majuscule' })
     }
 }
+
+exports.login = (req, res, next) => {
+    User.findOne({ where: { email: req.body.email }})
+        .then(user => {
+            if(!user) return res.status(404).json({ error: 'Utilisateur non trouvé !' })
+
+            bcrypt.compare(req.body.pass, user.pass)
+                .then(valid => {
+                    res.status(200).json({
+                        userId: user.id,
+                        token: jwt.sign(
+                            { userId: user.id },
+                            'RANDOM_TOKEN',
+                            { expiresIn: '24h' }
+                        )
+                    })
+                })
+                .catch(error => res.status(500).json({ error }))            
+        })
+        .catch(error => res.status(500).json({ error }))
+}
