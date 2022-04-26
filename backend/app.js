@@ -1,7 +1,12 @@
+const { urlencoded } = require('express')
 const express = require('express')
+
+const userRoutes = require('./routes/user')
+
 const app = express()
 
-app.use(express.json())
+// app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -10,5 +15,7 @@ app.use((req, res, next) => {
     next()
 })
 // app.use('/image', express.static(path.join(__dirname, 'image')))
+
+app.use('/api/auth', userRoutes)
 
 module.exports = app

@@ -1,6 +1,8 @@
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+const express = require('express')
+const router = express.Router()
 
-exports.signup = (res, req, next) => {
+const userCtrl = require('../controllers/user')
 
-}
+router.post('/signup', userCtrl.signup)
+
+module.exports = router
