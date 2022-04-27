@@ -83,6 +83,13 @@ exports.modifyUser = (req, res, next) => {
 
     User.update(updateUser, { where: { id: userId }})
     .then(() => res.status(200).json({ message: 'Utilisateur modifié avec succès.'}))
-    .catch(error => res.status(500).json({ error: 'Impossible de modifier cet utilisateur !'}))
+    .catch(error => res.status(400).json({ error: 'Impossible de modifier cet utilisateur !'}))
 }
 
+exports.deleteUser = (req, res, next) => {
+    const userId = req.params.id
+
+    User.destroy({ where: {id: userId } })
+    .then(() => res.status(200).json({ message: 'Utilisateur supprimé avec succès.'}))
+    .catch(error => res.status(400).json({ error: 'Impossible de supprimer cet utilisateur !'}))
+}
