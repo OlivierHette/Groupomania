@@ -85,3 +85,4 @@ exports.modifyUser = (req, res, next) => {
     .then(() => res.status(200).json({ message: 'Utilisateur modifié avec succès.'}))
     .catch(error => res.status(500).json({ error: 'Impossible de modifier cet utilisateur !'}))
 }
+
