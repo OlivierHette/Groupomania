@@ -8,4 +8,6 @@ router.get('/', postCtrl.getAllPosts)
 router.get('/:id', postCtrl.getPost)
 router.put('/:id', postCtrl.modifyPost)
 router.delete('/:id', postCtrl.deletePost)
+router.delete('/admin/:id', postCtrl.deletePostByAdmin)
+
 module.exports = router
