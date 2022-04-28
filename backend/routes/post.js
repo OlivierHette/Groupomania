@@ -5,5 +5,7 @@ const postCtrl = require('../controllers/post')
 
 router.post('/', postCtrl.createPost)
 router.get('/', postCtrl.getAllPosts)
-
+router.get('/:id', postCtrl.getPost)
+router.put('/:id', postCtrl.modifyPost)
+router.delete('/:id', postCtrl.deletePost)
 module.exports = router

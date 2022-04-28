@@ -12,20 +12,40 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
 
-      models.Post.belongsTo(models.User, {
-        // foreignKey: 'UserId'
-        foreignKey: {
-          allowNull: false
-        }
-      })
+      models.Post.belongsTo(models.User)
+      //   , {
+      //   // foreignKey: 'idUsers'
+      //   // foreignKey: {
+      //   //   name: 'userId',
+      //   //   allowNull: false
+      //   // }
+      //   // foreignKey: {
+      //   //   allowNull: false
+      //   // }
+      // })
     }
   }
   Post.init({
-    userId: DataTypes.INTEGER,
-    title: DataTypes.STRING,
-    content: DataTypes.STRING,
-    imageUrl: DataTypes.STRING,
-    likes: DataTypes.INTEGER
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    content: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    imageUrl: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    likes: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    }
   }, {
     sequelize,
     modelName: 'Post',

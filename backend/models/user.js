@@ -13,7 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
 
       models.User.hasMany(models.Post, {
-        onDelete: 'CASCADE', hooks: true 
+        foreignKey: 'userId',
+        // onDelete: 'CASCADE',
+        // hooks: true 
       })
     }
   }
