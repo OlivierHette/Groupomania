@@ -12,7 +12,7 @@ exports.createComment = (req, res, next) => {
 
     Comment.create(comment)
     .then(() => res.status(201).json({ message: 'Commentaire créé avec succès' }))
-    .catch(error => res.status(400).json({ error: 'Impossible de créer ce commentaire', error }));
+    .catch(error => res.status(400).json({ error: 'Impossible de créer ce commentaire', error }))
 }
 
 exports.getAllComments = (req, res, next) => {
@@ -24,7 +24,7 @@ exports.getAllComments = (req, res, next) => {
         include: { model: User } 
     })
     .then(comments => res.status(200).json(comments))
-    .catch(error => res.status(400).json({ error: 'Impossible d\'afficher tous les commentaires', error }));
+    .catch(error => res.status(400).json({ error: 'Impossible d\'afficher tous les commentaires', error }))
 }
 
 exports.getComment = (req, res, next) => {
@@ -46,5 +46,25 @@ exports.getComment = (req, res, next) => {
             res.status(404).json({ error: 'Commentaire non trouvé' })
         }
     })
-    .catch(error => res.status(400).json({ error: 'Impossible d\'afficher ce commentaire', error }));
+    .catch(error => res.status(400).json({ error: 'Impossible d\'afficher ce commentaire', error }))
+}
+
+exports.modifyComment = (req, res, next) => {
+    const id = req.params.id
+    const postId = req.params.postId
+    const userId = req.body.userId
+
+    const updateComment = {
+        content: req.body.content
+    }
+
+    Comment.update(updateComment, {
+        where: {
+            id: id,
+            postId: postId,
+            userId: userId
+        }
+    })
+    .then(() => res.status(200).json({ message: 'Commentaire modifié avec succès' }))
+    .catch(error => res.status(400).json({ message: 'Impossible de modifier ce commentaire', error }))
 }

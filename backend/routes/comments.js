@@ -7,5 +7,6 @@ const { route } = require('./user')
 router.post('/:postId/comments', commentCtrl.createComment)
 router.get('/:postId/comments', commentCtrl.getAllComments)
 router.get('/:postId/comments/:id', commentCtrl.getComment)
+router.put('/:postId/comments/:id', commentCtrl.modifyComment)
 
 module.exports = router
