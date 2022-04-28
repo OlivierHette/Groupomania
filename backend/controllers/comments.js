@@ -1,13 +1,13 @@
-const comment = require('../models/comment');
+const comment   = require('../models/comment');
 
-const Comment = require('../models').Comment
-const User = require('../models').User
+const Comment   = require('../models').Comment
+const User      = require('../models').User
 
 exports.createComment = (req, res, next) => {
     const comment = {
-        userId: req.body.userId,
-        postId: req.body.postId,
-        content: req.body.content
+        userId:     req.body.userId,
+        postId:     req.body.postId,
+        content:    req.body.content
     }
 
     Comment.create(comment)
@@ -28,8 +28,8 @@ exports.getAllComments = (req, res, next) => {
 }
 
 exports.getComment = (req, res, next) => {
-    const id = req.params.id
-    const postId = req.params.postId
+    const id        = req.params.id
+    const postId    = req.params.postId
 
     Comment.findOne({ 
         where: { 
@@ -50,9 +50,9 @@ exports.getComment = (req, res, next) => {
 }
 
 exports.modifyComment = (req, res, next) => {
-    const id = req.params.id
-    const postId = req.params.postId
-    const userId = req.body.userId
+    const id        = req.params.id
+    const postId    = req.params.postId
+    const userId    = req.body.userId
 
     const updateComment = {
         content: req.body.content
@@ -60,11 +60,27 @@ exports.modifyComment = (req, res, next) => {
 
     Comment.update(updateComment, {
         where: {
-            id: id,
-            postId: postId,
-            userId: userId
+            id:         id,
+            postId:     postId,
+            userId:     userId
         }
     })
     .then(() => res.status(200).json({ message: 'Commentaire modifié avec succès' }))
     .catch(error => res.status(400).json({ message: 'Impossible de modifier ce commentaire', error }))
+}
+
+exports.deleteComment = (req, res, next) => {
+    const id        = req.params.id
+    const postId    = req.params.postId
+    const userId    = req.body.userId
+    
+    Comment.destroy({
+        where: {
+            id:     id,
+            postId: postId,
+            userId: userId
+        }
+    })
+    .then(() => res.status(200).json({ message: 'Commentaire supprimé avec succès' }))
+    .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce commentaire', error }))
 }
