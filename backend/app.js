@@ -2,10 +2,11 @@ const { urlencoded } = require('express')
 const express = require('express')
 
 const userRoutes = require('./routes/user')
+const postRoutes = require('./routes/post')
 
 const app = express()
 
-// app.use(express.json())
+app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use((req, res, next) => {
@@ -17,5 +18,6 @@ app.use((req, res, next) => {
 // app.use('/image', express.static(path.join(__dirname, 'image')))
 
 app.use('/api/auth', userRoutes)
+app.use('/api/posts', postRoutes)
 
 module.exports = app
