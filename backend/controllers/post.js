@@ -3,10 +3,10 @@ const User = require('../models').User
 
 exports.createPost = (req, res, next) => {
     const post = {
-        userId: req.body.userId,
-        title: req.body.title,
-        content: req.body.content,
-        imageUrl: null
+        userId:     req.body.userId,
+        title:      req.body.title,
+        content:    req.body.content,
+        imageUrl:   null
     }
 
     Post.create(post)
@@ -15,7 +15,12 @@ exports.createPost = (req, res, next) => {
 }
 
 exports.getAllPosts = (req, res, next) => {
-    Post.findAll({ order: [['createdAt', 'DESC']], include: { model: User }})
+    Post.findAll({
+        order: [['createdAt', 'DESC']], 
+        include: { 
+            model: User 
+        }
+    })
     .then(posts => res.status(200).json(posts))
     .catch(error => res.status(400).json({ error: 'Impossible d\'afficher tous les posts', error}));
 }
@@ -23,32 +28,48 @@ exports.getAllPosts = (req, res, next) => {
 exports.getPost = (req, res, next) => {
     const id = req.params.id
 
-    Post.findOne({ where: { id: id }, include: { model: User } })
+    Post.findOne({ 
+        where: { 
+            id: id 
+        }, 
+        include: { 
+            model: User 
+        } 
+    })
     .then(post => res.status(200).json(post))
     .catch(error => res.status(400).json({ error: 'Impossible d\'afficher ce post', error }));
 }
 
 exports.modifyPost = (req, res, next) => {
-    const id = req.params.id
-    const userId = req.body.userId
+    const id        = req.params.id
+    const userId    = req.body.userId
 
     let updatedPost = {
-        title: req.body.title,
-        content: req.body.content
+        title:      req.body.title,
+        content:    req.body.content
     }
 
-    Post.update(updatedPost, { where: { id: id, userId: userId } })
+    Post.update(updatedPost, { 
+        where: { 
+            id:     id, 
+            userId: userId 
+        } 
+    })
     .then(() => res.status(200).json({ message: 'Post modifié avec succès' }))
     .catch(error => res.status(400).json({ error: 'Impossible de modifier ce post', error }));
 }
 
 exports.deletePost = (req, res, next) => {
-    const id = req.params.id
-    const userId = req.body.userId
+    const id        = req.params.id
+    const userId    = req.body.userId
 
-    Post.findOne({where: { id: id } })
+    Post.findOne({ where: { id: id } })
     .then(post => {
-        Post.destroy({ where: { id: id, userId: userId }})
+        Post.destroy({ where: { 
+                id: id, 
+                userId: userId 
+            }
+        })
         .then(() => res.status(200).json({ message: 'Post supprimé avec succès' }))
         .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce post', error }));
     })

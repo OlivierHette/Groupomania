@@ -44,7 +44,7 @@ exports.login = (req, res, next) => {
             bcrypt.compare(req.body.pass, user.pass)
                 .then(valid => {
                     res.status(200).json({
-                        id: user.id,
+                        id:     user.id,
                         token: jwt.sign(
                             { userId: user.id },
                             'RANDOM_TOKEN',
@@ -63,10 +63,10 @@ exports.getUser = (req, res, next) => {
     User.findByPk(userId).then(user => {
         if (user) {
             res.status(200).json({
-                id: user.id,
-                email: user.email,
-                username: user.username,
-                isAdmin: user.isAdmin
+                id:         user.id,
+                email:      user.email,
+                username:   user.username,
+                isAdmin:    user.isAdmin
             })
         } else {
             res.status(404).json({ error: 'Utilisateur non trouvé' })
@@ -89,7 +89,7 @@ exports.modifyUser = (req, res, next) => {
 exports.deleteUser = (req, res, next) => {
     const userId = req.params.id
 
-    User.destroy({ where: {id: userId } })
+    User.destroy({ where: { id: userId }})
     .then(() => res.status(200).json({ message: 'Utilisateur supprimé avec succès.'}))
     .catch(error => res.status(400).json({ error: 'Impossible de supprimer cet utilisateur !'}))
 }

@@ -33,7 +33,8 @@ exports.getComment = (req, res, next) => {
 
     Comment.findOne({ 
         where: { 
-            id: id, postId: postId 
+            id:     id, 
+            postId: postId 
         }, 
         include: { 
             model: User 
