@@ -1,12 +1,13 @@
 const Post = require('../models').Post
 const User = require('../models').User
+const fs = require('fs')
 
 exports.createPost = (req, res, next) => {
     const post = {
         userId:     req.body.userId,
         title:      req.body.title,
         content:    req.body.content,
-        imageUrl:   null
+        imageUrl:   req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null,
     }
 
     Post.create(post)
@@ -49,6 +50,8 @@ exports.modifyPost = (req, res, next) => {
         content:    req.body.content
     }
 
+    if(req.file) updatedPost["imageUrl"] = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+
     Post.update(updatedPost, { 
         where: { 
             id:     id, 
@@ -65,13 +68,26 @@ exports.deletePost = (req, res, next) => {
 
     Post.findOne({ where: { id: id } })
     .then(post => {
-        Post.destroy({ where: { 
-                id: id, 
-                userId: userId 
-            }
-        })
-        .then(() => res.status(200).json({ message: 'Post supprimé avec succès' }))
-        .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce post', error }));
+        if (post.imageUrl) {
+            const filename = post.imageUrl.split('/images/')[1]
+            fs.unlink(`images/${filename}`, () => {
+                Post.destroy({ where: { 
+                    id: id, 
+                    userId: userId 
+                }
+            })
+            .then(() => res.status(200).json({ message: 'Post supprimé avec succès' }))
+            .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce post', error }));
+            })
+        } else {
+            Post.destroy({ where: { 
+                    id: id, 
+                    userId: userId 
+                }
+            })
+            .then(() => res.status(200).json({ message: 'Post supprimé avec succès' }))
+            .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce post', error }));
+        }
     })
     .catch(error => res.status(500).json({ error }))
 }
@@ -81,9 +97,18 @@ exports.deletePostByAdmin = (req, res, next) => {
 
     Post.findOne({where: { id: id } })
     .then(post => {
-        Post.destroy({ where: { id: id }})
-        .then(() => res.status(200).json({ message: 'Post supprimé avec succès' }))
-        .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce post', error }));
+        if (post.imageUrl) {
+            const filename = post.imageUrl.split('/images/')[1]
+            fs.unlink(`images/${filename}`, () => {
+                Post.destroy({ where: { id: id }})
+                    .then(() => res.status(200).json({ message: 'Post supprimé avec succès' }))
+                    .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce post', error }));   
+            })
+        } else {
+            Post.destroy({ where: { id: id }})
+                .then(() => res.status(200).json({ message: 'Post supprimé avec succès' }))
+                .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce post', error }));
+        }
     })
     .catch(error => res.status(500).json({ error }))
 }
