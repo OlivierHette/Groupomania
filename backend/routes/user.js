@@ -3,11 +3,13 @@ const router = express.Router()
 
 const userCtrl = require('../controllers/user')
 
+const auth = require('../middleware/auth')
+
 router.post('/signup', userCtrl.signup)
 router.post('/login', userCtrl.login)
-router.get('/user/:id', userCtrl.getUser)
-router.put('/user/:id', userCtrl.modifyUser)
-router.delete('/user/:id', userCtrl.deleteUser)
+router.get('/user/:id', auth, userCtrl.getUser)
+router.put('/user/:id', auth, userCtrl.modifyUser)
+router.delete('/user/:id', auth, userCtrl.deleteUser)
 
 
 module.exports = router
