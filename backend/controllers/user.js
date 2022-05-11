@@ -1,6 +1,7 @@
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const User = require('../models').User
+const bcrypt    = require('bcrypt')
+const jwt       = require('jsonwebtoken')
+const User      = require('../models').User
+const Op        = require('sequelize').Op
 
 /** 
  * Endpoint pour l'inscription
@@ -84,14 +85,40 @@ exports.modifyUser = (req, res, next) => {
     }
 
     User.update(updateUser, { where: { id: userId }})
-    .then(() => res.status(200).json({ message: 'Utilisateur modifié avec succès.'}))
-    .catch(error => res.status(400).json({ error: 'Impossible de modifier cet utilisateur !'}))
+        .then(() => res.status(200).json({ message: 'Utilisateur modifié avec succès.'}))
+        .catch(error => res.status(400).json({ error: 'Impossible de modifier cet utilisateur !'}))
 }
 
 exports.deleteUser = (req, res, next) => {
     const userId = req.params.id
 
     User.destroy({ where: { id: userId }})
-    .then(() => res.status(200).json({ message: 'Utilisateur supprimé avec succès.'}))
-    .catch(error => res.status(400).json({ error: 'Impossible de supprimer cet utilisateur !'}))
+        .then(() => res.status(200).json({ message: 'Utilisateur supprimé avec succès.'}))
+        .catch(error => res.status(400).json({ error: 'Impossible de supprimer cet utilisateur !'}))
+}
+
+exports.getAllUsersByAdmin = (req, res, next) => {
+    const userId = req.params.id
+
+    User.findAll({
+        where: {
+            id: {
+                [Op.not]: userId
+            }
+        }
+    })
+    .then(users => res.status(200).json(users))
+    .catch(error => res.status(400).json({ error: 'Impossible d\'afficher les utilisateurs', error }))
+}
+
+exports.modifyUserRole = (req, res, next) => {
+    const id = req.params.id
+
+    let updatedRole = {
+        isAdmin: req.body.isAdmin
+    }
+
+    User.update(updatedRole, { where: { id: id }})
+        .then(() => res.status(200).json({ message: 'Rôle de l\'utilisateur modifié avec succès' }))
+        .catch(error => res.status(400).json({ error: 'Impossible de modifier le rôle de cet utilisateur', error }))
 }

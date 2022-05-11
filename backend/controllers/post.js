@@ -1,6 +1,6 @@
-const Post = require('../models').Post
-const User = require('../models').User
-const fs = require('fs')
+const Post  = require('../models').Post
+const User  = require('../models').User
+const fs    = require('fs')
 
 exports.createPost = (req, res, next) => {
     const post = {
@@ -98,6 +98,7 @@ exports.deletePostByAdmin = (req, res, next) => {
     Post.findOne({where: { id: id } })
     .then(post => {
         if (post.imageUrl) {
+            //  SI !isAdmin sortir de la condition -> res.error401
             const filename = post.imageUrl.split('/images/')[1]
             fs.unlink(`images/${filename}`, () => {
                 Post.destroy({ where: { id: id }})

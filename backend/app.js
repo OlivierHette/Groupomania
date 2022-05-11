@@ -1,12 +1,12 @@
-const { urlencoded } = require('express')
-const express = require('express')
-const path = require('path')
+const { urlencoded }    = require('express')
+const express           = require('express')
+const path              = require('path')
 
-const userRoutes = require('./routes/user')
-const postRoutes = require('./routes/post')
-const commentRoutes = require('./routes/comments')
+const userRoutes        = require('./routes/user')
+const postRoutes        = require('./routes/post')
+const commentRoutes     = require('./routes/comments')
 
-const app = express()
+const app               = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
