@@ -15,6 +15,10 @@ exports.createPost = (req, res, next) => {
     .catch(error => res.status(400).json({ error: 'Impossible de créer ce post', error}));
 }
 
+/**
+ * Récuperer grace a l'userId l'username
+ */
+
 exports.getAllPosts = (req, res, next) => {
     Post.findAll({
         order: [['createdAt', 'DESC']], 

@@ -1,5 +1,6 @@
 import {Header} from "../components/Header"
 import {Footer} from "../components/Footer"
+import { Link } from "react-router-dom"
 
 export function Signup() {
 
@@ -20,11 +21,11 @@ export function Signup() {
                 S'inscrire
               </button>
 
-              <a href="#"  className="flex justify-center mt-6 mx-auto text-white">
+              <Link to="/login" className="flex justify-center mt-6 mx-auto text-white">
                 <p> 
                   Déjà inscrit ? <span className="text-red-600 transition-colors hover:text-red-400 duration-300"> Connexion</span>
                 </p>
-              </a>
+              </Link>
             </form>
           </div>
         </div>
