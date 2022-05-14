@@ -1,33 +1,40 @@
 import { Header } from "../components/Header"
 import { Post } from "../components/Post"
 import { Footer } from "../components/Footer"
-
-const POSTS = [
-  {
-    id: 1,
-    username: 'username',
-    date: '4h',
-    profilePic: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    postPic:'https://images.unsplash.com/photo-1553104798-25100bb64c66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-    postTitle:"Un titre qu'il faut adapter à la photo."
-  },
-  {
-    id: 2,
-    username: 'username',
-    date: '4h',
-    profilePic: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    postPic:'https://images.unsplash.com/photo-1553104798-25100bb64c66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-    postTitle:"Un deuxieme post"
-  }
-]
+import { useContext, useEffect, useState } from "react"
+import { AuthContext } from "../context/AuthContext"
 
 export function Home() {
   const isHomePage = true
+  const [posts, setPosts] = useState([])
+  const { user } = useContext(AuthContext)
+  const initRequest = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + user.token,
+    },
+  }
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await fetch("http://localhost:3001/api/posts/", initRequest)
+        const data = await res.json()
+        console.log(data);
+        setPosts(data)
+      } catch (error) {
+        console.log('Error:', error);
+      }
+    }
+    fetchPosts()
+  }, [])
 
   return (
     <>
       <Header />
-      {POSTS.map(post => {
+      {posts.map(post => {
         return <Post isHomePage={isHomePage} onePost={post} key={post.id}/>
       })}
       <Footer />
