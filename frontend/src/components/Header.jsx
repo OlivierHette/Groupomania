@@ -6,6 +6,8 @@ import { AuthContext } from '../context/AuthContext'
 export function Header() {
   const { user } = useContext(AuthContext)
   const [visible, setVisible] = useState(false)
+  const PUBLIC_URL = process.env.PUBLIC_URL
+  const hasPP = false
 
   function handleClick(e) {
     e.preventDefault()
@@ -30,7 +32,15 @@ export function Header() {
             <div>
               <button type="button" onClick={handleClick} className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-red-600" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                 <span className="sr-only">Ouvrir le menu utilisateur</span>
-                <img className="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                <img 
+                  className="h-8 w-8 rounded-full" 
+                  src= { 
+                    hasPP 
+                    ? 'profileImageUrl'
+                    : PUBLIC_URL + 'images/no-avatar.jpg'
+                  }
+                  alt="" 
+                />
               </button>
             </div>
             {visible ?
