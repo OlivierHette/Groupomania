@@ -4,7 +4,6 @@ import { CounterComments } from "./CounterComment"
 
 
 export function Post({isHomePage, onePost}) {
-  console.log(onePost);
   const {id, createdAt, imageUrl, title, User} = onePost
   // const {User: {username, profileImageUrl}} = onePost
   const [visible, setVisible] = useState(false)
@@ -78,7 +77,9 @@ export function Post({isHomePage, onePost}) {
               </div>
             </Link>
           </div>
-          {isHomePage ? <CounterComments /> : null}
+          {isHomePage 
+          ? <Link to={`/post/` + id}><CounterComments /></Link>
+          : null}
         </div>
         {/* fin post */}
       </section>

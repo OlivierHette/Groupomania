@@ -3,14 +3,15 @@ const User  = require('../models').User
 const fs    = require('fs')
 
 exports.createPost = (req, res, next) => {
+    console.log('body 6',req.file);
     const post = {
         userId:     req.body.userId,
         title:      req.body.title,
         // content:    req.body.content,
         content:    null,
-        imageUrl:   req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null,
+        imageUrl:   req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null
     }
-
+    console.log('body 14', req.file);
     Post.create(post)
     .then(() => res.status(201).json({ message: 'Post créé avec succès' }))
     .catch(error => res.status(400).json({ error: 'Impossible de créer ce post', error}));

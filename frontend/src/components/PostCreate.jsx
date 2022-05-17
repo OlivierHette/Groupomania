@@ -17,44 +17,32 @@ export function PostCreate() {
       content: null,
       imageUrl: null
     }
-    const initRequest = {
-      method: 'POST',
-      body: JSON.stringify(newPost)
-    }
-    console.log('without img',newPost)
-    console.log('initRequest: ' ,initRequest);
-    console.log('newPost:', newPost);
+
     if(file) {
       console.log('true ?')
-      const data = new FormData()
+      const formData = new FormData()
       const fileName = Date.now() + file.name
-      data.append('name', fileName)
-      data.append('file', file)
+      formData.append('name', fileName)
+      formData.append('file', file)
       newPost.imageUrl = fileName
-      // initRequest = {
-      //   method: 'POST',
-      //   body: JSON.stringify(newPost)
-      // }
-      // console.log('with img',newPost)
-      // console.log('initRequest with img: ' ,initRequest);
-      // try {
-      //   let res = await fetch('http://localhost:3001/api/posts/', initRequest)
-      //   let data = await res.json()
-      //   if (res.ok) {
-      //     // navigate('/')
-      //     window.location.reload()
-      //     console.log(data);
-      //   }
-      // } catch (err) {
-      //   console.log('Error:', err);
-      // }
     }
+    console.log(newPost);
+
+    const initRequest = {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type" : "application/json"
+      },
+      body: JSON.stringify(newPost)
+    }
+
     try {
       let res = await fetch('http://localhost:3001/api/posts/', initRequest)
       let data = await res.json()
       if (res.ok) {
         // navigate('/')
-        window.location.reload()
+        // window.location.reload()
         console.log(data);
       }
     } catch (err) {

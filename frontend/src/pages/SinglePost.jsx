@@ -10,6 +10,7 @@ import { AuthContext } from "../context/AuthContext";
 export function SinglePost() {
   const isHomePage = false
   const [post, setPost] = useState({})
+  const [comms, setComms] = useState([])
   const { user } = useContext(AuthContext)
   let { id } = useParams()
   const initRequest = {
@@ -22,13 +23,10 @@ export function SinglePost() {
   }
   
   useEffect(() => {
-    console.log('ligne 37');
     const fetchPost = async () => {
       try {
-        console.log('Ligne 40');
         const res = await fetch(`http://localhost:3001/api/posts/${id}`, initRequest)
         const data = await res.json()
-        console.log(data);
         setPost(data)
       } catch (err) {
         console.log('Error:', err);
@@ -36,13 +34,33 @@ export function SinglePost() {
     }
     fetchPost()
   }, [])
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const res = await fetch(`http://localhost:3001/api/comments/${id}/comments`)
+        const data = await res.json()
+        setComms(data)
+        // console.log(data);
+        // console.log('comms', comms);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchComments()
+  }, [])
   
   return (
     <>
       <Header />
-      <Post isHomePage={isHomePage} onePost={post} key={post.id}/>
+      
+      {post && <Post isHomePage={isHomePage} onePost={post} key={post.id}/>
+      }
+      {/* <Post isHomePage={isHomePage} onePost={post} key={post.id}/> */}
       <Comments />
-      <ListComments />
+      {comms.map(com => {
+        return <ListComments comments={com} key={com.id}/>
+      })}
       <Footer />
     </>
   )
