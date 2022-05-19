@@ -16,6 +16,11 @@ export function Post({isHomePage, onePost}) {
     setVisible(v => !v)
   }
 
+  async function onClick(e) {
+    e.preventDefault()
+    
+  }
+
   // Verifi si l'objet n'est pas vide
   // if (User && User.prop) {
   //   return User.prop
@@ -54,6 +59,9 @@ export function Post({isHomePage, onePost}) {
                 <Link to="#" className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">
                   Editer
                 </Link>
+                <button onClick={onClick} className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-1">
+                  Supprimer
+                </button>
                 <Link to="#" className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">
                   Supprimer
                 </Link>
@@ -70,11 +78,14 @@ export function Post({isHomePage, onePost}) {
 
           <div className="mx-5 my-3 bg-black">
             <Link to={`/post/` + id}>
-              <div className="h-[250px] sm:h-[475px] relative overflow-hidden bg-black">
-                <img className="w-full absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]" 
-                  src={imageUrl} 
-                  alt="La jungle" />
-              </div>
+              {imageUrl === null
+                ? null
+                : <div className="h-[250px] sm:h-[475px] relative overflow-hidden bg-black">
+                    <img className="w-full absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]" 
+                      src={imageUrl} 
+                      alt="La jungle" />
+                  </div>
+              }
             </Link>
           </div>
           {isHomePage 

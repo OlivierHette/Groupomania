@@ -40,6 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     imageUrl: {
       type: DataTypes.STRING,
+      defaultValue: '',
       allowNull: true
     },
     likes: {

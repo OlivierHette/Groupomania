@@ -1,7 +1,6 @@
 import { PostComment } from "./PostComment";
 
-export function Comments() {
-  
+export function Comments({onePost}) {
   return (
     <>
       {/* <!-- Commentaires --> */}
@@ -10,7 +9,7 @@ export function Comments() {
           <div className="mx-5 self-start border-b border-solid border-slate-800 pb-2">
             <span className="text-slate-300 font-semibold text-sm">Commentaires</span>
           </div>
-          <PostComment />
+          <PostComment onePost={onePost} />
         </div>
       </section>
       {/* <!-- Fin commentaires --> */}

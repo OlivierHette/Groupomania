@@ -19,7 +19,7 @@ exports.getAllComments = (req, res, next) => {
     const postId = req.params.postId
 
     Comment.findAll({ 
-        order: [['createdAt', 'ASC']], 
+        order: [['createdAt', 'DESC']], 
         where: { postId: postId }, 
         include: { model: User } 
     })

@@ -1,52 +1,67 @@
 import { useContext, useRef, useState } from "react"
-// import { useNavigate } from "react-router-dom"
 import { AuthContext } from "../context/AuthContext"
 
 export function PostCreate() {
   const { user } = useContext(AuthContext)
   const title = useRef()
-  // const navigate = useNavigate()
   const [file, setFile] = useState(null)
 
   async function submitHandler(e) {
     e.preventDefault()
     // console.log(user.token);
+    // const newPost = {
+    //   userId: user.id,
+    //   title: title.current.value,
+    //   content: null,
+    //   imageUrl: null
+    // }
     const newPost = {
       userId: user.id,
       title: title.current.value,
-      content: null,
-      imageUrl: null
+      content: null
     }
 
-    if(file) {
-      console.log('true ?')
-      const formData = new FormData()
+    if (file) {
+      const data = new FormData()
       const fileName = Date.now() + file.name
-      formData.append('name', fileName)
-      formData.append('file', file)
+      data.append("userId", newPost.userId)
+      data.append("title", newPost.title)
+      data.append("name", fileName)
+      data.append("images", file)
       newPost.imageUrl = fileName
+      try {
+        let res = await fetch("http://localhost:3001/api/posts/", {
+          method: 'POST',
+          body: data
+        })
+        console.log(res);
+        if (res.ok) {
+          window.location.reload()
+        }
+      } catch (err) {}
     }
-    console.log(newPost);
-
+  
     const initRequest = {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
-        "Content-Type" : "application/json"
+        'Content-Type': 'application/json',
+        "Accept" : "*/*",
       },
       body: JSON.stringify(newPost)
     }
 
-    try {
-      let res = await fetch('http://localhost:3001/api/posts/', initRequest)
-      let data = await res.json()
-      if (res.ok) {
-        // navigate('/')
-        // window.location.reload()
-        console.log(data);
+    console.log(initRequest.body);
+
+    if (!file) {
+      console.log(false);
+      try {
+        let res = await fetch('http://localhost:3001/api/posts/', initRequest)
+        if (res.ok) {
+          window.location.reload()
+        }
+      } catch (err) {
+        console.log('Error:', err);
       }
-    } catch (err) {
-      console.log('Error:', err);
     }
   }
   
@@ -59,7 +74,7 @@ export function PostCreate() {
             placeholder="Titre" 
             ref={title}
             name="title" 
-            id="title-post" 
+            id="title" 
             rows="1" 
             className="outline-none resize-none overflow-hidden border-none bg-transparent text-slate-300 h-5 w-full font-semibold break-words leading-6" 
             maxLength="280"></textarea>
@@ -78,12 +93,12 @@ export function PostCreate() {
                 <button className="text-slate-300 text-sm bg-red-600 px-3 py-1 rounded-md font-semibold">
                   Upload..
                 </button>
-                <label htmlFor="file" className="bg-white opacity-0 absolute top-0 right-0 bottom-0 left-0 w-full h-full"></label>
+                <label htmlFor="images" className="bg-white opacity-0 absolute top-0 right-0 bottom-0 left-0 w-full h-full"></label>
                 <input 
                   type="file" 
-                  name="file"
-                  id="file"
-                  accept="image/jpeg, image/jpg, image/png, image/gif"
+                  name="images"
+                  id="images"
+                  accept=".jpeg,.jpg,.png,.gif"
                   onChange={(e) => setFile(e.target.files[0])} 
                   className="hidden" 
                 />

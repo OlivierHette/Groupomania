@@ -57,7 +57,7 @@ export function SinglePost() {
       {post && <Post isHomePage={isHomePage} onePost={post} key={post.id}/>
       }
       {/* <Post isHomePage={isHomePage} onePost={post} key={post.id}/> */}
-      <Comments />
+      <Comments onePost={post}/>
       {comms.map(com => {
         return <ListComments comments={com} key={com.id}/>
       })}
