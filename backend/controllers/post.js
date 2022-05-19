@@ -63,7 +63,7 @@ exports.modifyPost = (req, res, next) => {
     Post.update(updatedPost, { 
         where: { 
             id:     id, 
-            userId: userId 
+            userId: userId
         } 
     })
     .then(() => res.status(200).json({ message: 'Post modifié avec succès' }))
@@ -89,8 +89,8 @@ exports.deletePost = (req, res, next) => {
             })
         } else {
             Post.destroy({ where: { 
-                    id: id, 
-                    userId: userId 
+                    id: id,
+                    userId: userId
                 }
             })
             .then(() => res.status(200).json({ message: 'Post supprimé avec succès' }))

@@ -1,24 +1,60 @@
-import { Link } from "react-router-dom"
-import { useState } from "react"
+import { Link, Navigate, useNavigate } from "react-router-dom"
+import { useContext, useState } from "react"
 import { CounterComments } from "./CounterComment"
+import { AuthContext } from "../context/AuthContext"
 
 
 export function Post({isHomePage, onePost}) {
   const {id, createdAt, imageUrl, title, User} = onePost
   // const {User: {username, profileImageUrl}} = onePost
   const [visible, setVisible] = useState(false)
+  const [visibleEdit, setVisibleEdit] = useState(false)
+  const [titlePost, setTitlePost] = useState({value: title})
+  const { user } = useContext(AuthContext)
+  const navigate = useNavigate()
   const date = new Date(createdAt)
   const PUBLIC_URL = process.env.PUBLIC_URL
   const hasPP = false
+  const deletePost = {
+    userId: user.id
+  }
+
+  const initRequest = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type' : 'application/json'
+    },
+    body: JSON.stringify(deletePost)
+  }
 
   function handleClick(e) {
     e.preventDefault()
     setVisible(v => !v)
   }
-
-  async function onClick(e) {
+  
+  async function onClickDelete(e) {
     e.preventDefault()
     
+    try {
+      const res = await fetch(`http://localhost:3001/api/posts/${id}`, initRequest)
+      const data = await res.json()
+      if (res.ok) {
+        console.log(data);
+        return navigate('/')
+      }
+    } catch (err) {
+      console.log('Error:', err);
+    }
+  }
+
+  function handleChange (e) {
+    setTitlePost({value: e.target.value})
+  }
+  
+  async function onClickEdit(e) {
+    e.preventDefault()
+    setVisibleEdit(v => !v)
+    setVisible(v => !v)
   }
 
   // Verifi si l'objet n'est pas vide
@@ -56,15 +92,19 @@ export function Post({isHomePage, onePost}) {
               </div>
               {visible ? 
               <div className="z-10 origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1">
-                <Link to="#" className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">
+                {/* <Link to="#" className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">
                   Editer
-                </Link>
-                <button onClick={onClick} className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-1">
+                </Link> */}
+                <button onClick={onClickEdit} className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">
+                  {visibleEdit
+                    ? <span className="text-red-600">Annuler</span>
+                    : 'Editer'
+                  }
+                  
+                </button>
+                <button onClick={onClickDelete} className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-1">
                   Supprimer
                 </button>
-                <Link to="#" className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">
-                  Supprimer
-                </Link>
               </div> : null
               }
               
@@ -73,7 +113,26 @@ export function Post({isHomePage, onePost}) {
           </div>
 
           <div>
-            <h2 className="mx-5 mt-3 text-slate-300 text-lg font-semibold truncate">{title}</h2>
+            {visibleEdit
+              ? <div className="border-slate-800 border border-solid rounded-md p-2 flex mx-5 mt-3">
+                    <textarea 
+                      // ref={title}
+                      value={titlePost.value}
+                      name="title" 
+                      id="title" 
+                      rows="1" 
+                      onChange={handleChange}
+                      className="outline-none resize-none overflow-hidden border-none bg-transparent text-slate-300 h-5 w-full font-semibold break-words leading-6" 
+                      maxLength="280">
+                    </textarea>
+                    <div>
+                      <span className="text-slate-400 text-sm">280</span>
+                    </div>
+                </div>
+              : <h2 className="mx-5 mt-3 text-slate-300 text-lg font-semibold truncate">{title}</h2>
+            }
+            
+            
           </div>
 
           <div className="mx-5 my-3 bg-black">
@@ -89,7 +148,9 @@ export function Post({isHomePage, onePost}) {
             </Link>
           </div>
           {isHomePage 
-          ? <Link to={`/post/` + id}><CounterComments /></Link>
+          ? <Link to={`/post/` + id}>
+              <CounterComments />
+            </Link>
           : null}
         </div>
         {/* fin post */}

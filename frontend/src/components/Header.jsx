@@ -24,7 +24,7 @@ export function Header() {
     <header className="bg-slate-800 w-full">
       <div className="container flex justify-center items-center justify-items-center mx-auto h-20 p-5 shadow-sm">
         <Link to="/">
-          <img className="w-80" src={logo} alt="Logo de groupomania" />
+          <img className="w-52" src={logo} alt="Logo de groupomania" />
         </Link>
         <nav>
           {user ? 

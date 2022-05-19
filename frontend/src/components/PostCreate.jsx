@@ -30,13 +30,15 @@ export function PostCreate() {
       data.append("images", file)
       newPost.imageUrl = fileName
       try {
-        let res = await fetch("http://localhost:3001/api/posts/", {
+        let response = await fetch("http://localhost:3001/api/posts/", {
           method: 'POST',
           body: data
         })
-        console.log(res);
-        if (res.ok) {
+        let result = await response.json()
+        console.log(response);
+        if (response.ok) {
           window.location.reload()
+          console.log(result);
         }
       } catch (err) {}
     }
@@ -77,7 +79,8 @@ export function PostCreate() {
             id="title" 
             rows="1" 
             className="outline-none resize-none overflow-hidden border-none bg-transparent text-slate-300 h-5 w-full font-semibold break-words leading-6" 
-            maxLength="280"></textarea>
+            maxLength="280">
+          </textarea>
           <div>
             <span className="text-slate-400 text-sm">280</span>
           </div>
