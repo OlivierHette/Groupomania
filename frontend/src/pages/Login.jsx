@@ -19,10 +19,13 @@ async function loginCall(userCredential, dispatch) {
   try {
     let res = await fetch('http://localhost:3001/api/auth/login', initRequest)
     let data = await res.json()
-    // console.log('Data:', data)
-    dispatch({ type: "LOGIN_SUCCES", payload: data })
+    if (res.ok) {
+      console.log('Data err :', data);
+      dispatch({ type: "LOGIN_SUCCES", payload: data })
+    }
   } catch (err) {
-    dispatch({ type: "LOGIN_FAILURE", payload: err })
+    dispatch({ type: "LOGIN_FAILURE" })
+    console.log(err);
   }
   
 }

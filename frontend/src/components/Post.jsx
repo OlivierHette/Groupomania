@@ -18,11 +18,12 @@ export function Post({isHomePage, onePost}) {
   const deletePost = {
     userId: user.id
   }
-
+  
   const initRequest = {
     method: 'DELETE',
     headers: {
-      'Content-Type' : 'application/json'
+      'Content-Type' : 'application/json',
+      'Authorization' : 'Bearer ' + user.token,
     },
     body: JSON.stringify(deletePost)
   }
@@ -40,6 +41,9 @@ export function Post({isHomePage, onePost}) {
       const data = await res.json()
       if (res.ok) {
         console.log(data);
+        if (isHomePage) {
+          window.location.reload()
+        }
         return navigate('/')
       }
     } catch (err) {
@@ -54,7 +58,11 @@ export function Post({isHomePage, onePost}) {
   async function onClickEdit(e) {
     e.preventDefault()
     setVisibleEdit(v => !v)
-    setVisible(v => !v)
+    if (visible) {
+      setVisible(v => !v)
+    }
+
+
   }
 
   // Verifi si l'objet n'est pas vide
@@ -147,11 +155,26 @@ export function Post({isHomePage, onePost}) {
               }
             </Link>
           </div>
-          {isHomePage 
-          ? <Link to={`/post/` + id}>
-              <CounterComments />
-            </Link>
-          : null}
+          <div className="flex">
+            {isHomePage && !visibleEdit 
+              ? <Link to={`/post/` + id} className="flex justify-center items-center mx-5 h-9 w-32 border-slate-400 border border-solid rounded transition-colors hover:bg-slate-800 duration-300">
+                  <CounterComments className="self-start">Commentaire</CounterComments>
+                </Link>
+              : null
+            }
+            {visibleEdit
+              ? <div className="flex justify-center items-center mx-5">
+                  <button type="submit" className="text-white text-sm bg-red-600 w-20 px-3 py-2 rounded-md font-semibold self-center">
+                    Publier
+                  </button>
+                  <span onClick={onClickEdit} className="mx-1 px-3 py-2 text-slate-400 text-sm transition-colors hover:text-slate-50 duration-300 cursor-pointer">
+                    Annuler
+                  </span>
+                </div>
+              : null
+            }
+            
+          </div>
         </div>
         {/* fin post */}
       </section>

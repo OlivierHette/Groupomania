@@ -76,6 +76,9 @@ exports.deletePost = (req, res, next) => {
 
     Post.findOne({ where: { id: id } })
     .then(post => {
+        if(post.userId !== req.auth.userId) {
+            return res.status(401).json({ error: new Error('Request not authorize !') })
+        }
         if (post.imageUrl) {
             const filename = post.imageUrl.split('/images/')[1]
             fs.unlink(`images/${filename}`, () => {

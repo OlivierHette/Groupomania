@@ -14,10 +14,15 @@ export function AuthReducer(state, action) {
       };
       case "LOGIN_FAILURE":
       return {
-        user: null,
+        ...state,
         isFetching: false,
-        error: true,
-      };
+        error: true
+      }
+      // return {
+      //   user: null,
+      //   isFetching: false,
+      //   error: true,
+      // };
     default:
       return state;
   }

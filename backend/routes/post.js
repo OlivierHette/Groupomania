@@ -9,9 +9,9 @@ const postCtrl  = require('../controllers/post')
 router.get('/', auth, postCtrl.getAllPosts)
 router.get('/:id', auth, postCtrl.getPost)
 
-router.post('/', multer, postCtrl.createPost)
+router.post('/', auth, multer, postCtrl.createPost)
 router.put('/:id', auth, multer, postCtrl.modifyPost)
-router.delete('/:id', postCtrl.deletePost)
+router.delete('/:id', auth, postCtrl.deletePost)
 
 router.delete('/admin/:id', auth, postCtrl.deletePostByAdmin)
 

@@ -32,6 +32,9 @@ export function PostCreate() {
       try {
         let response = await fetch("http://localhost:3001/api/posts/", {
           method: 'POST',
+          headers: {
+            'Authorization' : 'Bearer ' + user.token,
+          },
           body: data
         })
         let result = await response.json()
@@ -48,6 +51,7 @@ export function PostCreate() {
       headers: {
         'Content-Type': 'application/json',
         "Accept" : "*/*",
+        'Authorization' : 'Bearer ' + user.token,
       },
       body: JSON.stringify(newPost)
     }
