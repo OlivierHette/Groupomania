@@ -11,8 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.Comment.belongsTo(models.User)
-      models.Comment.belongsTo(models.Post)
+      models.Comment.belongsTo(models.User, {
+        foreignKey: 'userId'
+      })
+      models.Comment.belongsTo(models.Post, {
+        foreignKey: 'postId',
+        onDelete: 'CASCADE'
+      })
     }
   }
   Comment.init({
@@ -31,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Comment',
+    tableName: 'comments'
   });
   return Comment;
 };

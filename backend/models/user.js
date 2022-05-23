@@ -12,11 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
 
-      models.User.hasMany(models.Post, {
-        foreignKey: 'userId',
-        // onDelete: 'CASCADE',
-        // hooks: true 
-      })
+      models.User.hasMany(models.Post , { foreignKey: 'userId' })
       models.User.hasMany(models.Comment, { foreignKey: 'userId' })
     }
   }
@@ -39,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
+    tableName: 'users'
   });
   return User;
 };

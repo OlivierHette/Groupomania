@@ -18,9 +18,5 @@ const storage = multer.diskStorage({
     }
 })
 
-// const upload = multer({
-//     storage: storage
-// }).single('images')
-
 module.exports = multer({ storage: storage }).single('images')
 // .fields pour avoir plusieur route pour images

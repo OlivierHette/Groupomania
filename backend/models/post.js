@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model, STRING
+  Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
@@ -11,24 +11,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.Post.hasMany(models.Comment, { foreignKey: 'postId' })
-      models.Post.belongsTo(models.User)
-      //   , {
-      //   // foreignKey: 'idUsers'
-      //   // foreignKey: {
-      //   //   name: 'userId',
-      //   //   allowNull: false
-      //   // }
-      //   // foreignKey: {
-      //   //   allowNull: false
-      //   // }
-      // })
+      models.Post.belongsTo(models.User, {
+        foreignKey: 'userId',
+        onDelete: 'CASCADE'
+      })
+      models.Post.hasMany(models.Comment, {
+        foreignKey: 'postId',
+        onDelete: 'CASCADE'
+      })
     }
   }
   Post.init({
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      field: 'userId'
     },
     title: {
       type: DataTypes.STRING,
@@ -40,20 +37,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     imageUrl: {
       type: DataTypes.STRING,
-      defaultValue: '',
       allowNull: true
     },
     likes: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: false
     }
   }, {
     sequelize,
     modelName: 'Post',
+    tableName: 'posts'
   });
   return Post;
 };
-
-/**
- * 
- */

@@ -49,35 +49,17 @@ exports.getPost = (req, res, next) => {
     .catch(error => res.status(400).json({ error: 'Impossible d\'afficher ce post', error }));
 }
 
-// exports.modifyPost = (req, res, next) => {
-//     const id        = req.params.id
-//     const userId    = req.body.userId
-
-//     let updatedPost = {
-//         userId: userId,
-//         title:      req.body.title,
-//     }
-
-//     if(req.file) updatedPost["images"] = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-
-//     Post.update(updatedPost, { 
-//         where: { 
-//             id:     id, 
-//             userId: userId
-//         } 
-//     })
-//     .then(() => res.status(200).json({ message: 'Post modifié avec succès' }))
-//     .catch(error => res.status(400).json({ error: 'Impossible de modifier ce post', error }));
-// }
-
 exports.modifyPost = (req, res, next) => {
     const postId = req.params.id
     const userId = req.auth.userId
+
+    console.log('req.body.title -->',req.body.title);
     
     const postObject = req.file ? {
         ...req.body,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
     } : { ...req.body }
+    console.log('req.body -->',req.body);
     Post.update(postObject, {
         where: {
             id: postId,
@@ -94,6 +76,9 @@ exports.deletePost = (req, res, next) => {
 
     Post.findOne({ where: { id: id } })
     .then(post => {
+
+        if(!post) return res.status(404).json({ error: new Error("Post inexistant !") })
+
         if(post.userId !== req.auth.userId) {
             return res.status(401).json({ error: new Error('Requète non authorisé !') })
         }
@@ -101,12 +86,12 @@ exports.deletePost = (req, res, next) => {
             const filename = post.imageUrl.split('/images/')[1]
             fs.unlink(`images/${filename}`, () => {
                 Post.destroy({ where: { 
-                    id: id, 
-                    userId: userId 
-                }
-            })
-            .then(() => res.status(200).json({ message: 'Post supprimé avec succès' }))
-            .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce post', error }));
+                        id: id, 
+                        userId: userId 
+                    }
+                })
+                .then(() => res.status(200).json({ message: 'Post supprimé avec succès' }))
+                .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce post', error }));
             })
         } else {
             Post.destroy({ where: { 
