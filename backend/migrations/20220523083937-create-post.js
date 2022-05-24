@@ -29,7 +29,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       likes: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER
       },
       createdAt: {

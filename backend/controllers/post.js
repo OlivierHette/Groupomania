@@ -13,9 +13,10 @@ exports.createPost = (req, res, next) => {
         // imageUrl:   req.file ? req.file.filename: null
         // content:    req.body.content,
     })
-    console.log('body 14', req.file);
+    console.log('Req.file --> ', req.file);
+    console.log('req.body --> ', req.body);
     post.save()
-    .then(() => res.status(201).json({ message: 'Post créé avec succès' }))
+    .then(() => res.status(201).json({ message: 'Post crée avec succès' }))
     .catch(error => res.status(400).json({ error: 'Impossible de créer ce post', error}));
 }
 

@@ -1,5 +1,5 @@
-import { Link, Navigate, useNavigate } from "react-router-dom"
-import { useContext, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { useContext, useRef, useState } from "react"
 import { CounterComments } from "./CounterComment"
 import { AuthContext } from "../context/AuthContext"
 
@@ -10,14 +10,13 @@ export function Post({isHomePage, onePost}) {
   const [visible, setVisible] = useState(false)
   const [visibleEdit, setVisibleEdit] = useState(false)
   const [titlePost, setTitlePost] = useState({value: title})
-  const { user } = useContext(AuthContext)
+  const titleEdit = useRef()
   const navigate = useNavigate()
+  const { user } = useContext(AuthContext)
+
   const date = new Date(createdAt)
   const PUBLIC_URL = process.env.PUBLIC_URL
   const hasPP = false
-  const deletePost = {
-    userId: user.id
-  }
   
   const initRequest = {
     method: 'DELETE',
@@ -25,7 +24,7 @@ export function Post({isHomePage, onePost}) {
       'Content-Type' : 'application/json',
       'Authorization' : 'Bearer ' + user.token,
     },
-    body: JSON.stringify(deletePost)
+    body: JSON.stringify({ userId: user.id})
   }
 
   function handleClick(e) {
@@ -55,14 +54,37 @@ export function Post({isHomePage, onePost}) {
     setTitlePost({value: e.target.value})
   }
   
-  async function onClickEdit(e) {
+  const initRequestEdit = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization' : 'Bearer ' + user.token,
+    },
+    body: JSON.stringify({ title: titlePost.value })
+  }
+
+  function onClickShowEdit(e) {
     e.preventDefault()
     setVisibleEdit(v => !v)
     if (visible) {
       setVisible(v => !v)
     }
+  }
 
-
+  async function onSubmitEdit(e) {
+    e.preventDefault()
+    console.log('on rentre dans onSubmit ?');
+    try {
+      const res = await fetch(`http://localhost:3001/api/posts/${id}`, initRequestEdit)
+      console.log('after fetch:', initRequestEdit);
+      const data = await res.json()
+      if (res.ok) {
+        console.log('data',data);
+        window.location.reload()
+      }
+    } catch (err) {
+      console.log('Error:', err);
+    }
   }
 
   // Verifi si l'objet n'est pas vide
@@ -103,7 +125,7 @@ export function Post({isHomePage, onePost}) {
                 {/* <Link to="#" className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">
                   Editer
                 </Link> */}
-                <button onClick={onClickEdit} className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">
+                <button onClick={onClickShowEdit} className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">
                   {visibleEdit
                     ? <span className="text-red-600">Annuler</span>
                     : 'Editer'
@@ -124,7 +146,7 @@ export function Post({isHomePage, onePost}) {
             {visibleEdit
               ? <div className="border-slate-800 border border-solid rounded-md p-2 flex mx-5 mt-3">
                     <textarea 
-                      // ref={title}
+                      ref={titleEdit}
                       value={titlePost.value}
                       name="title" 
                       id="title" 
@@ -139,8 +161,6 @@ export function Post({isHomePage, onePost}) {
                 </div>
               : <h2 className="mx-5 mt-3 text-slate-300 text-lg font-semibold truncate">{title}</h2>
             }
-            
-            
           </div>
 
           <div className="mx-5 my-3 bg-black">
@@ -163,14 +183,14 @@ export function Post({isHomePage, onePost}) {
               : null
             }
             {visibleEdit
-              ? <div className="flex justify-center items-center mx-5">
+              ? <form onSubmit={onSubmitEdit} className="flex justify-center items-center mx-5">
                   <button type="submit" className="text-white text-sm bg-red-600 w-20 px-3 py-2 rounded-md font-semibold self-center">
                     Publier
                   </button>
-                  <span onClick={onClickEdit} className="mx-1 px-3 py-2 text-slate-400 text-sm transition-colors hover:text-slate-50 duration-300 cursor-pointer">
+                  <span onClick={onClickShowEdit} className="mx-1 px-3 py-2 text-slate-400 text-sm transition-colors hover:text-slate-50 duration-300 cursor-pointer">
                     Annuler
                   </span>
-                </div>
+                </form>
               : null
             }
             
