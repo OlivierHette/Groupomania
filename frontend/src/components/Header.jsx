@@ -34,10 +34,9 @@ export function Header() {
                 <span className="sr-only">Ouvrir le menu utilisateur</span>
                 <img 
                   className="h-8 w-8 rounded-full" 
-                  src= { 
-                    hasPP 
-                    ? 'profileImageUrl'
-                    : PUBLIC_URL + 'images/no-avatar.jpg'
+                  src= { hasPP 
+                          ? 'profileImageUrl'
+                          : PUBLIC_URL + 'images/no-avatar.jpg'
                   }
                   alt="" 
                 />

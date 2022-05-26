@@ -12,6 +12,7 @@ export function ListComments({comments}) {
   const date = new Date(createdAt)
   const PUBLIC_URL = process.env.PUBLIC_URL
   const hasPP = false
+  const isAdmin = user.isAdmin
 
   function handleClick(e) {
     e.preventDefault()
@@ -32,6 +33,30 @@ export function ListComments({comments}) {
     
     try {
       const res = await fetch(`http://localhost:3000/api/comments/${postId}/comments/${id}`, initRequest)
+      const data = await res.json()
+      if (res.ok) {
+        console.log(data);
+        window.location.reload()
+      }
+    } catch (err) {
+      console.log('Error:', err);
+    }
+  }
+
+  const initRequestAdmin = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type' : 'application/json',
+      'Authorization' : 'Bearer ' + user.token,
+    },
+    body: JSON.stringify({ userId: user.id})
+  }
+
+  async function onClickDeleteAdmin(e) {
+    e.preventDefault()
+    
+    try {
+      const res = await fetch(`http://localhost:3000/api/comments/admin/${postId}/comments/${id}`, initRequestAdmin)
       const data = await res.json()
       if (res.ok) {
         console.log(data);
@@ -113,9 +138,14 @@ export function ListComments({comments}) {
                   }
                   
                 </button>
-                <button onClick={onClickDelete} className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-1">
-                  Supprimer
-                </button>
+                {isAdmin
+                  ? <button onClick={onClickDeleteAdmin} className="active:bg-gray-100 block px-4 py-2 text-sm text-red-600" role="menuitem" tabIndex="-1" id="user-menu-item-1">
+                      Supprimer
+                    </button>
+                  : <button onClick={onClickDelete} className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-1">
+                      Supprimer
+                    </button>
+                }
               </div> : null
               }
             </div>
@@ -160,6 +190,9 @@ export function ListComments({comments}) {
                 {content}
               </p>
           }
+              {/* <p className="mx-16 text-slate-300 text-sm">
+                {content}
+              </p> */}
         </div>
       </div>
     </section>

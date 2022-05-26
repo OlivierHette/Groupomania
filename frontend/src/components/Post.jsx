@@ -17,6 +17,7 @@ export function Post({isHomePage, onePost}) {
   const date = new Date(createdAt)
   const PUBLIC_URL = process.env.PUBLIC_URL
   const hasPP = false
+  const isAdmin = user.isAdmin
   
   const initRequest = {
     method: 'DELETE',
@@ -87,6 +88,33 @@ export function Post({isHomePage, onePost}) {
     }
   }
 
+  const initRequestAdmin = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type' : 'application/json',
+      'Authorization' : 'Bearer ' + user.token,
+    },
+    body: JSON.stringify({ userId: user.id})
+  }
+  
+  async function onClickDeleteAdmin(e) {
+    e.preventDefault()
+    
+    try {
+      const res = await fetch(`http://localhost:3001/api/posts/admin/${id}`, initRequestAdmin)
+      const data = await res.json()
+      if (res.ok) {
+        console.log(data);
+        if (isHomePage) {
+          window.location.reload()
+        }
+        return navigate('/')
+      }
+    } catch (err) {
+      console.log('Error:', err);
+    }
+  }
+
   // Verifi si l'objet n'est pas vide
   // if (User && User.prop) {
   //   return User.prop
@@ -132,9 +160,14 @@ export function Post({isHomePage, onePost}) {
                   }
                   
                 </button>
-                <button onClick={onClickDelete} className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-1">
-                  Supprimer
-                </button>
+                {isAdmin
+                ? <button onClick={onClickDeleteAdmin} className="active:bg-gray-100 block px-4 py-2 text-sm text-red-600" role="menuitem" tabIndex="-1" id="user-menu-item-1">
+                    Supprimer
+                  </button>
+                : <button onClick={onClickDelete} className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-1">
+                    Supprimer
+                  </button>
+                }
               </div> : null
               }
               

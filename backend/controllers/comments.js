@@ -89,6 +89,11 @@ exports.deleteComment = (req, res, next) => {
 exports.deleteCommentByAdmin = (req, res, next) => {
     const id        = req.params.id
     const postId    = req.params.postId
+    const isAdmin   = req.auth.isAdmin
+
+    if (isAdmin === false) {
+        return res.status(401).json({ error: new Error('Vous n\'avez pas les authorizations !') })
+    }
 
     Comment.destroy({
         where: {

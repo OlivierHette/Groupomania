@@ -13,6 +13,7 @@ export function SinglePost() {
   const [comms, setComms] = useState([])
   const { user } = useContext(AuthContext)
   let { id } = useParams()
+
   const initRequest = {
     method: 'GET',
     headers: {
@@ -42,7 +43,7 @@ export function SinglePost() {
         const data = await res.json()
         setComms(data)
         // console.log(data);
-        // console.log('comms', comms);
+        console.log('comms', comms);
       } catch (err) {
         console.log(err);
       }

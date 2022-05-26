@@ -108,23 +108,63 @@ exports.deletePost = (req, res, next) => {
 }
 
 exports.deletePostByAdmin = (req, res, next) => {
-    const id = req.params.id
-
-    Post.findOne({where: { id: id } })
+    const id        = req.params.id
+    const userId    = req.body.userId
+    const isAdmin   = req.auth.isAdmin
+    
+    Post.findOne({ where: { id: id } })
     .then(post => {
+
+        if(!post) return res.status(404).json({ error: new Error("Post inexistant !") })
+
+        console.log('req.auth.isAdmin --> ', req.auth.isAdmin);
+        console.log('req.auth.userId --> ', req.auth.userId);
+        console.log('req.auth --> ', req.auth);
+
+        if (isAdmin === false) {
+            return res.status(401).json({ error: new Error('Vous n\'avez pas les authorizations !') })
+        }
+
         if (post.imageUrl) {
-            //  SI !isAdmin sortir de la condition -> res.error401
             const filename = post.imageUrl.split('/images/')[1]
             fs.unlink(`images/${filename}`, () => {
-                Post.destroy({ where: { id: id }})
-                    .then(() => res.status(200).json({ message: 'Post supprimé avec succès' }))
-                    .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce post', error }));   
-            })
-        } else {
-            Post.destroy({ where: { id: id }})
+                Post.destroy({ where: { 
+                        id: id, 
+                    }
+                })
                 .then(() => res.status(200).json({ message: 'Post supprimé avec succès' }))
                 .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce post', error }));
+            })
+        } else {
+            Post.destroy({ where: { 
+                    id: id,
+                }
+            })
+            .then(() => res.status(200).json({ message: 'Post supprimé avec succès' }))
+            .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce post', error }));
         }
     })
     .catch(error => res.status(500).json({ error }))
 }
+
+// exports.deletePostByAdmin = (req, res, next) => {
+//     const id = req.params.id
+
+//     Post.findOne({where: { id: id } })
+//     .then(post => {
+//         if (post.imageUrl) {
+//             //  SI !isAdmin sortir de la condition -> res.error401
+//             const filename = post.imageUrl.split('/images/')[1]
+//             fs.unlink(`images/${filename}`, () => {
+//                 Post.destroy({ where: { id: id }})
+//                     .then(() => res.status(200).json({ message: 'Post supprimé avec succès' }))
+//                     .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce post', error }));   
+//             })
+//         } else {
+//             Post.destroy({ where: { id: id }})
+//                 .then(() => res.status(200).json({ message: 'Post supprimé avec succès' }))
+//                 .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce post', error }));
+//         }
+//     })
+//     .catch(error => res.status(500).json({ error }))
+// }

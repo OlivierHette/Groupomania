@@ -19,11 +19,11 @@ if (config.use_env_variable) {
 try {
   sequelize.authenticate()
     // .then( async () => {
-    //     await sequelize.sync({ alter: true}) //force: true 
-    //     console.log('[ mysql ] Sync successfully');
+    //     await sequelize.sync({ alter: true , force: true }) //force: true 
+    //     console.log('\u001b[' +33+ 'm'+'[ mysql ] Sync successfully' + '\u001b[0m');
     //   })
     // .catch((error) => {
-    //   console.error('[ mysql ] Unable to connect to the database:', error);
+    //   console.error('\u001b[' +31+ 'm'+'[ mysql ] Unable to connect to the database:' + '\u001b[0m', error );
     // })
   console.log('\u001b[' +33+ 'm'+'[ mysql ] Connection has been established successfully.'+'\u001b[0m');
 } catch (error) {
