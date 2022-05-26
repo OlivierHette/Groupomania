@@ -6,10 +6,13 @@ import { AuthContext } from "../context/AuthContext"
 import { PostCreate } from "../components/PostCreate"
 
 export function Home() {
-  const isHomePage = true
   const [visible, setVisible] = useState(false)
   const [posts, setPosts] = useState([])
   const { user } = useContext(AuthContext)
+  
+  const isHomePage = true
+  const isAdmin = false
+
   const initRequest = {
     method: 'GET',
     headers: {
@@ -24,8 +27,10 @@ export function Home() {
       try {
         const res = await fetch("http://localhost:3001/api/posts/", initRequest)
         const data = await res.json()
-        // console.log(data);
-        setPosts(data)
+        console.log('getAllPosts > data -->', data);
+        if (res.ok) {
+          setPosts(data)
+        }
       } catch (err) {
         console.log('Err:', err);
       }
@@ -37,6 +42,8 @@ export function Home() {
     e.preventDefault()
     setVisible(v => !v)
   }
+
+  console.log('Home > { user } -->', user);
 
   return (
     <>
