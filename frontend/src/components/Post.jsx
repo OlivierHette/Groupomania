@@ -61,7 +61,7 @@ export function Post({isHomePage, onePost}) {
       'Content-Type': 'application/json',
       'Authorization' : 'Bearer ' + user.token,
     },
-    body: JSON.stringify({ title: titlePost.value })
+    body: JSON.stringify({ title: titlePost.value, userId: user.id })
   }
 
   function onClickShowEdit(e) {

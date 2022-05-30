@@ -3,22 +3,20 @@ import { AuthContext } from "../context/AuthContext"
 
 export function PostCreate() {
   const { user } = useContext(AuthContext)
-  const title = useRef()
   const [file, setFile] = useState(null)
+  const title = useRef()
 
   async function submitHandler(e) {
     e.preventDefault()
-    // console.log(user.token);
-    // const newPost = {
-    //   userId: user.id,
-    //   title: title.current.value,
-    //   content: null,
-    //   imageUrl: null
-    // }
+    
     const newPost = {
       userId: user.id,
       title: title.current.value,
       content: null
+    }
+
+    if (newPost.title === '') {
+      return console.log('Empty');
     }
 
     if (file) {
@@ -81,7 +79,8 @@ export function PostCreate() {
             ref={title}
             name="title" 
             id="title" 
-            rows="1" 
+            rows="1"
+            required 
             className="outline-none resize-none overflow-hidden border-none bg-transparent text-slate-300 h-5 w-full font-semibold break-words leading-6" 
             maxLength="280">
           </textarea>

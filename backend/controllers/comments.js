@@ -74,16 +74,25 @@ exports.deleteComment = (req, res, next) => {
     const id        = req.params.id
     const postId    = req.params.postId
     const userId    = req.body.userId
-    
-    Comment.destroy({
-        where: {
-            id:     id,
-            postId: postId,
-            userId: userId
-        }
-    })
-    .then(() => res.status(200).json({ message: 'Commentaire supprimé avec succès' }))
-    .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce commentaire', error }))
+
+    Comment.findOne({ where: { id: id }})
+        .then(comment => {
+            if(!comment) return res.status(404).json({ error: new Error("Commentaire inexistant !") })
+
+            if (comment.userId !== req.auth.userId) {
+                return res.status(401).json({ error: new Error('Requète non authorisé !') })
+            }
+
+            Comment.destroy( {
+                where: {
+                    id:     id,
+                    postId: postId,
+                    userId: userId
+                }
+            })
+            .then(() => res.status(200).json({ message: 'Commentaire supprimé avec succès' }))
+            .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce commentaire', error }))
+        })
 }
 
 exports.deleteCommentByAdmin = (req, res, next) => {

@@ -54,7 +54,7 @@ exports.modifyPost = (req, res, next) => {
     const postId = req.params.id
     const userId = req.auth.userId
 
-    console.log('req.body.title -->',req.body.title);
+    console.log('req.body.title -->', req.body.title);
     
     const postObject = req.file ? {
         ...req.body,
@@ -146,25 +146,3 @@ exports.deletePostByAdmin = (req, res, next) => {
     })
     .catch(error => res.status(500).json({ error }))
 }
-
-// exports.deletePostByAdmin = (req, res, next) => {
-//     const id = req.params.id
-
-//     Post.findOne({where: { id: id } })
-//     .then(post => {
-//         if (post.imageUrl) {
-//             //  SI !isAdmin sortir de la condition -> res.error401
-//             const filename = post.imageUrl.split('/images/')[1]
-//             fs.unlink(`images/${filename}`, () => {
-//                 Post.destroy({ where: { id: id }})
-//                     .then(() => res.status(200).json({ message: 'Post supprimé avec succès' }))
-//                     .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce post', error }));   
-//             })
-//         } else {
-//             Post.destroy({ where: { id: id }})
-//                 .then(() => res.status(200).json({ message: 'Post supprimé avec succès' }))
-//                 .catch(error => res.status(400).json({ error: 'Impossible de supprimer ce post', error }));
-//         }
-//     })
-//     .catch(error => res.status(500).json({ error }))
-// }

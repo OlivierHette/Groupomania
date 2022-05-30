@@ -22,7 +22,7 @@ export function Header() {
 
   return(
     <header className="bg-slate-800 w-full">
-      <div className="container flex justify-center items-center justify-items-center mx-auto h-20 p-5 shadow-sm">
+      <div className="container flex justify-between items-center justify-items-center mx-auto h-20 p-5 shadow-sm max-w-2xl">
         <Link to="/">
           <img className="w-52" src={logo} alt="Logo de groupomania" />
         </Link>
@@ -44,7 +44,7 @@ export function Header() {
             </div>
             {visible ?
             <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1">
-              <Link to="#" className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">
+              <Link to="/profile" className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">
                 Profil
               </Link>
               <Link to="#" onClick={handleClickDeconnection} className="active:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">

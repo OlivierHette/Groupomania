@@ -14,6 +14,11 @@ export function PostComment ({onePost}) {
       postId: onePost.id,
       content: content.current.value,
     }
+
+    if (content === '') {
+      return console.log('empty');
+    }
+
     const initRequest = {
       method: 'POST',
       headers: {
@@ -57,6 +62,7 @@ export function PostComment ({onePost}) {
             name="content-com" 
             id="content-com" 
             rows="1" 
+            required
             className="outline-none resize-none overflow-hidden border-none bg-transparent text-slate-300 h-14 w-full text-xs break-words leading-6" 
           ></textarea>
         </div>

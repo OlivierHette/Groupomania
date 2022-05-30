@@ -72,8 +72,10 @@ exports.getUser = (req, res, next) => {
                 id:         user.id,
                 email:      user.email,
                 username:   user.username,
-                isAdmin:    user.isAdmin
+                isAdmin:    user.isAdmin,
+                createdAt:  user.createdAt
             })
+            console.log('createdAt: user.createdAt -->', user.createdAt);
         } else {
             res.status(404).json({ error: 'Utilisateur non trouvé' })
         }

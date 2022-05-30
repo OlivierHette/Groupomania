@@ -11,7 +11,6 @@ export function Home() {
   const { user } = useContext(AuthContext)
   
   const isHomePage = true
-  const isAdmin = false
 
   const initRequest = {
     method: 'GET',
@@ -27,7 +26,6 @@ export function Home() {
       try {
         const res = await fetch("http://localhost:3001/api/posts/", initRequest)
         const data = await res.json()
-        console.log('getAllPosts > data -->', data);
         if (res.ok) {
           setPosts(data)
         }
@@ -42,8 +40,6 @@ export function Home() {
     e.preventDefault()
     setVisible(v => !v)
   }
-
-  console.log('Home > { user } -->', user);
 
   return (
     <>
