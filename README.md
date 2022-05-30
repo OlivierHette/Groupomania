@@ -52,7 +52,7 @@ Le BackEnd est développé en JavaScript à l'aide de <a href="https://nodejs.de
     }
   }
   ```
-  - Retournez dans votre terminal dans votre `backend` et executer la commande suivante: `sequelize db:migrate`
+  - Retournez dans votre terminal dans votre `backend` et executer la commande suivante > `sequelize db:migrate`
   - Vous devriez voir les tables `user`, `post` et `comments`créée
   - Lancez le serveur > `nodemon server`
   - Execution de l'API sur http://localhost:3001 si le port est déjà utilisé rendez-vous dans `server.js` à la racine de votre dossier `backend` et modifier cette ligne par un port non utilisé:
@@ -72,4 +72,24 @@ Le FrontEnd est développé en JavaScript et HTML/CSS avec <a href="https://tail
   - postcss
   - tailwindcss
   
+  ## Installation
+    - Ouvrez un nouveau terminal et rendez-vous dans le dossier `frontend` > `cd frontend`
+        - Installez le `frontend` > `npm install`
+        - Lancez le serveur > `npm start`
+        - Le serveur ce lance sur le port 3000 pour changer le port rendez-vous dans le `package.json`
   
+          ```JSON
+           "scripts": {
+            "start": "react-scripts start", /* Modifier cette ligne pour changer le port :
+            * Linux et MacOs: 
+            *   "start": "PORT=3006 react-scripts start" ou "start": "export PORT=3006 react-scripts start"
+            * Windows : 
+            *   "start": "set PORT=3006 && react-scripts start"
+            */
+            "build": "react-scripts build",
+            "test": "react-scripts test",
+            "eject": "react-scripts eject"
+          },
+          ```
+
+      
