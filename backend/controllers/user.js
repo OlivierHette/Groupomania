@@ -46,8 +46,6 @@ exports.login = (req, res, next) => {
                 .then(valid => {
                     if(!valid) return res.status(401).json({ error: 'Mot de passe incorrect !' })
 
-                    console.log('user.js > isAdmin --> ', user.isAdmin);
-
                     res.status(200).json({
                         id:         user.id,
                         isAdmin:    user.isAdmin,
@@ -75,7 +73,6 @@ exports.getUser = (req, res, next) => {
                 isAdmin:    user.isAdmin,
                 createdAt:  user.createdAt
             })
-            console.log('createdAt: user.createdAt -->', user.createdAt);
         } else {
             res.status(404).json({ error: 'Utilisateur non trouvé' })
         }

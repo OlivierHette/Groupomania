@@ -75,7 +75,6 @@ export function Profile() {
       'Content-Type' : 'application/json',
       'Authorization' : 'Bearer ' + user.token,
     }
-    // body: JSON.stringify({ userId: user.id})
   }
   
   async function onClickDelete(e) {
@@ -117,14 +116,6 @@ export function Profile() {
                 />
                   <span className="text-sm text-white truncate">Image de profile</span>
                   <label htmlFor="images" className="bg-white opacity-0 absolute top-0 right-0 bottom-0 left-0 w-full h-full"></label>
-                  {/* <input 
-                    type="file" 
-                    name="images"
-                    id="images"
-                    accept=".jpeg,.jpg,.png,.gif"
-                    // onChange={(e) => setFile(e.target.files[0])} 
-                    className="hidden" 
-                  /> */}
                 </div>
               </div>
             </div>

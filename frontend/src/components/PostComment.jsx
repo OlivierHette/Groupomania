@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react"
+import { useContext, useRef } from "react"
 import { AuthContext } from "../context/AuthContext"
 
 export function PostComment ({onePost}) {

@@ -1,20 +1,13 @@
-// const Post  = require('../models').Post
-// const User  = require('../models').User
 const {Post, User} = require('../models')
 const fs    = require('fs')
 
 exports.createPost = (req, res, next) => {
-    console.log('body 6', req.body.imageUrl);
     const post = new Post({
         userId:     req.body.userId,
         title:      req.body.title,
         content:    null,
         imageUrl:   req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null
-        // imageUrl:   req.file ? req.file.filename: null
-        // content:    req.body.content,
     })
-    console.log('Req.file --> ', req.file);
-    console.log('req.body --> ', req.body);
     post.save()
     .then(() => res.status(201).json({ message: 'Post crée avec succès' }))
     .catch(error => res.status(400).json({ error: 'Impossible de créer ce post', error}));
@@ -53,14 +46,12 @@ exports.getPost = (req, res, next) => {
 exports.modifyPost = (req, res, next) => {
     const postId = req.params.id
     const userId = req.auth.userId
-
-    console.log('req.body.title -->', req.body.title);
     
     const postObject = req.file ? {
         ...req.body,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
     } : { ...req.body }
-    console.log('req.body -->',req.body);
+    
     Post.update(postObject, {
         where: {
             id: postId,
@@ -109,17 +100,12 @@ exports.deletePost = (req, res, next) => {
 
 exports.deletePostByAdmin = (req, res, next) => {
     const id        = req.params.id
-    const userId    = req.body.userId
     const isAdmin   = req.auth.isAdmin
     
     Post.findOne({ where: { id: id } })
     .then(post => {
 
         if(!post) return res.status(404).json({ error: new Error("Post inexistant !") })
-
-        console.log('req.auth.isAdmin --> ', req.auth.isAdmin);
-        console.log('req.auth.userId --> ', req.auth.userId);
-        console.log('req.auth --> ', req.auth);
 
         if (isAdmin === false) {
             return res.status(401).json({ error: new Error('Vous n\'avez pas les authorizations !') })
