@@ -1,5 +1,5 @@
 # Groupomania
-
+<img src="https://github.com/OlivierHette/Groupomania/blob/main/frontend/src/assets/images/logo-red.png?raw=true"/>
 Groupomania est un réseau social d'entreprise visant à permettre les membres d'une équipe a partager du contenu et communiquer entre eux
 
 ## Dépendances
