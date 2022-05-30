@@ -2,17 +2,17 @@ import { useContext, useRef, useState } from "react"
 import { AuthContext } from "../context/AuthContext"
 
 export function ListComments({comments}) {
-  const {id, postId, content, createdAt, User} = comments
-  const [visible, setVisible] = useState(false)
-  const [visibleEdit, setVisibleEdit] = useState(false)
-  const [ContentComms, setContentComms] = useState({value: content})
-  const contentEdit = useRef()
-  const { user } = useContext(AuthContext)
+  const {id, postId, content, createdAt, User}  = comments
+  const [visible, setVisible]                   = useState(false)
+  const [visibleEdit, setVisibleEdit]           = useState(false)
+  const [ContentComms, setContentComms]         = useState({value: content})
+  const contentEdit                             = useRef()
+  const { user }                                = useContext(AuthContext)
 
-  const date = new Date(createdAt)
-  const PUBLIC_URL = process.env.PUBLIC_URL
-  const hasPP = false
-  const isAdmin = user.isAdmin
+  const date                                    = new Date(createdAt)
+  const PUBLIC_URL                              = process.env.PUBLIC_URL
+  const hasPP                                   = false
+  const isAdmin                                 = user.isAdmin
 
   function handleClick(e) {
     e.preventDefault()
@@ -151,21 +151,7 @@ export function ListComments({comments}) {
             </div>
 
           </div>
-          {/* <div className="border-slate-800 border border-solid rounded-md p-2 flex mx-5 mt-3">
-            <textarea 
-              // ref={'titleEdit'}
-              value={'titlePost.value'}
-              name="title" 
-              id="title" 
-              rows="1" 
-              onChange={'handleChange'}
-              className="outline-none resize-none overflow-hidden border-none bg-transparent text-slate-300 h-5 w-full font-semibold break-words leading-6" 
-              maxLength="280">
-            </textarea>
-            <div>
-              <span className="text-slate-400 text-sm">280</span>
-            </div>
-          </div> */}
+
           {visibleEdit
             ? <form onSubmit={onSubmitEdit} className="flex flex-col mx-16 border-slate-800 border border-solid rounded-md ">
                 <div className="border-slate-800 border-b border-solid p-2 flex">
@@ -190,9 +176,6 @@ export function ListComments({comments}) {
                 {content}
               </p>
           }
-              {/* <p className="mx-16 text-slate-300 text-sm">
-                {content}
-              </p> */}
         </div>
       </div>
     </section>

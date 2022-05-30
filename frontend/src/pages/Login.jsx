@@ -1,5 +1,5 @@
-import {Header} from "../components/Header"
-import {Footer} from "../components/Footer"
+import { Header } from "../components/Header"
+import { Footer } from "../components/Footer"
 import { Link } from "react-router-dom"
 import { useContext, useRef } from "react"
 import { AuthContext } from "../context/AuthContext"
@@ -17,8 +17,8 @@ async function loginCall(userCredential, dispatch) {
   dispatch({ type: "LOGIN_START" })
 
   try {
-    let res = await fetch('http://localhost:3001/api/auth/login', initRequest)
-    let data = await res.json()
+    let res   = await fetch('http://localhost:3001/api/auth/login', initRequest)
+    let data  = await res.json()
     if (res.ok) {
       console.log('Data err :', data);
       dispatch({ type: "LOGIN_SUCCES", payload: data })

@@ -7,10 +7,10 @@ import { PostCreate } from "../components/PostCreate"
 
 export function Home() {
   const [visible, setVisible] = useState(false)
-  const [posts, setPosts] = useState([])
-  const { user } = useContext(AuthContext)
+  const [posts, setPosts]     = useState([])
+  const { user }              = useContext(AuthContext)
   
-  const isHomePage = true
+  const isHomePage            = true
 
   const initRequest = {
     method: 'GET',

@@ -5,19 +5,19 @@ import { AuthContext } from "../context/AuthContext"
 
 
 export function Post({isHomePage, onePost}) {
-  const {id, createdAt, imageUrl, title, User} = onePost
-  // const {User: {username, profileImageUrl}} = onePost
-  const [visible, setVisible] = useState(false)
-  const [visibleEdit, setVisibleEdit] = useState(false)
-  const [titlePost, setTitlePost] = useState({value: title})
-  const titleEdit = useRef()
-  const navigate = useNavigate()
-  const { user } = useContext(AuthContext)
+  const { user }                                = useContext(AuthContext)
+  const {id, createdAt, imageUrl, title, User}  = onePost
 
-  const date = new Date(createdAt)
-  const PUBLIC_URL = process.env.PUBLIC_URL
-  const hasPP = false
-  const isAdmin = user.isAdmin
+  const [visible, setVisible]                   = useState(false)
+  const [visibleEdit, setVisibleEdit]           = useState(false)
+  const [titlePost, setTitlePost]               = useState({value: title})
+  const titleEdit                               = useRef()
+  const navigate                                = useNavigate()
+
+  const date                                    = new Date(createdAt)
+  const PUBLIC_URL                              = process.env.PUBLIC_URL
+  const hasPP                                   = false
+  const isAdmin                                 = user.isAdmin
   
   const initRequest = {
     method: 'DELETE',

@@ -2,9 +2,9 @@ import { useContext, useRef, useState } from "react"
 import { AuthContext } from "../context/AuthContext"
 
 export function PostCreate() {
-  const { user } = useContext(AuthContext)
+  const { user }        = useContext(AuthContext)
   const [file, setFile] = useState(null)
-  const title = useRef()
+  const title           = useRef()
 
   async function submitHandler(e) {
     e.preventDefault()

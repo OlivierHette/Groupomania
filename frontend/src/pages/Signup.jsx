@@ -4,10 +4,10 @@ import { Link, useNavigate } from "react-router-dom"
 import { useRef } from "react"
 
 export function Signup() {
-  const username = useRef()
-  const email = useRef()
-  const pass = useRef()
-  const navigate = useNavigate()
+  const username  = useRef()
+  const email     = useRef()
+  const pass      = useRef()
+  const navigate  = useNavigate()
 
   async function handleClick(e) {
     e.preventDefault()

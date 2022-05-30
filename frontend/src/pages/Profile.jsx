@@ -4,14 +4,14 @@ import { Header } from "../components/Header";
 import { AuthContext } from "../context/AuthContext";
 
 export function Profile() {
-  const [userInfo, setUserInfo] = useState({})
-  const [usernameInput, setUsername] = useState({ value: userInfo.username })
-  const { user } = useContext(AuthContext)
-  const usernameEdit = useRef()
+  const [userInfo, setUserInfo]       = useState({})
+  const [usernameInput, setUsername]  = useState({ value: userInfo.username })
+  const { user }                      = useContext(AuthContext)
+  const usernameEdit                  = useRef()
 
-  const date = new Date(userInfo.createdAt)
-  const hasPP = false
-  const PUBLIC_URL = process.env.PUBLIC_URL
+  const date                          = new Date(userInfo.createdAt)
+  const hasPP                         = false
+  const PUBLIC_URL                    = process.env.PUBLIC_URL
 
   const initRequest = {
     method: 'GET',
@@ -115,7 +115,7 @@ export function Profile() {
                   }
                   alt="" 
                 />
-                  <span className="text-sm text-white truncate">Changer l'image de profile</span>
+                  <span className="text-sm text-white truncate">Image de profile</span>
                   <label htmlFor="images" className="bg-white opacity-0 absolute top-0 right-0 bottom-0 left-0 w-full h-full"></label>
                   {/* <input 
                     type="file" 

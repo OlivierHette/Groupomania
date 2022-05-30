@@ -2,10 +2,11 @@ import { useContext, useRef, useState } from "react"
 import { AuthContext } from "../context/AuthContext"
 
 export function PostComment ({onePost}) {
-  const { user } = useContext(AuthContext)
-  const content = useRef()
-  const PUBLIC_URL = process.env.PUBLIC_URL
-  const hasPP = false
+  const { user }    = useContext(AuthContext)
+  const content     = useRef()
+  
+  const PUBLIC_URL  = process.env.PUBLIC_URL
+  const hasPP       = false
 
   async function submitHandler(e) {
     e.preventDefault()

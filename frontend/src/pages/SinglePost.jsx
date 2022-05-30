@@ -8,11 +8,11 @@ import { Post } from "../components/Post";
 import { AuthContext } from "../context/AuthContext";
 
 export function SinglePost() {
-  const isHomePage = false
-  const [post, setPost] = useState({})
+  const [post, setPost]   = useState({})
   const [comms, setComms] = useState([])
-  const { user } = useContext(AuthContext)
-  let { id } = useParams()
+  const { user }          = useContext(AuthContext)
+  let { id }              = useParams()
+  const isHomePage        = false
 
   const initRequest = {
     method: 'GET',
@@ -42,8 +42,6 @@ export function SinglePost() {
         const res = await fetch(`http://localhost:3001/api/comments/${id}/comments`)
         const data = await res.json()
         setComms(data)
-        // console.log(data);
-        console.log('comms', comms);
       } catch (err) {
         console.log(err);
       }
@@ -55,9 +53,7 @@ export function SinglePost() {
     <>
       <Header />
       
-      {post && <Post isHomePage={isHomePage} onePost={post} key={post.id}/>
-      }
-      {/* <Post isHomePage={isHomePage} onePost={post} key={post.id}/> */}
+      {post && <Post isHomePage={isHomePage} onePost={post} key={post.id}/>}
       <Comments onePost={post}/>
       {comms.map(com => {
         return <ListComments comments={com} key={com.id}/>

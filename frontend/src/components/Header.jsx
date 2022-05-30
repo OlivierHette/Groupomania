@@ -4,10 +4,10 @@ import logo from '../assets/images/logo.png'
 import { AuthContext } from '../context/AuthContext'
 
 export function Header() {
-  const { user } = useContext(AuthContext)
+  const { user }              = useContext(AuthContext)
   const [visible, setVisible] = useState(false)
-  const PUBLIC_URL = process.env.PUBLIC_URL
-  const hasPP = false
+  const PUBLIC_URL            = process.env.PUBLIC_URL
+  const hasPP                 = false
 
   function handleClick(e) {
     e.preventDefault()
