@@ -63,12 +63,12 @@ Le FrontEnd est développé en JavaScript et HTML/CSS avec <a href="https://tail
   - tailwindcss
   
   ## Installation
-    - Ouvrez un nouveau terminal et rendez-vous dans le dossier `frontend` > `cd frontend`
+  - Ouvrez un nouveau terminal et rendez-vous dans le dossier `frontend` > `cd frontend`
         - Installez le `frontend` > `npm install`
         - Lancez le serveur > `npm start`
-        - Le serveur ce lance sur le port 3000 pour changer le port rendez-vous dans le `package.json`
-  
-          ```JSON
+        - Le serveur ce lance sur le port 3000 pour changer le port rendez-vous dans le package.json :
+          
+  ```JSON
            "scripts": {
             "start": "react-scripts start", /* Modifier cette ligne pour changer le port :
             * Linux et MacOs: 
@@ -80,6 +80,4 @@ Le FrontEnd est développé en JavaScript et HTML/CSS avec <a href="https://tail
             "test": "react-scripts test",
             "eject": "react-scripts eject"
           },
-          ```
-
-      
+          ```     
