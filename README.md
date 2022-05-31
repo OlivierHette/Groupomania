@@ -22,10 +22,6 @@ Le BackEnd est développé en JavaScript à l'aide de <a href="https://nodejs.de
   - Depuis votre terminal rendez-vous dans le dossier backend > `cd backend` et executer `npm install`
    
   ### Configuration de la base de données :
-  Dans le terminal au dossier backend
-  - Installez `mysql2` > `npm install mysql2`
-  - Installez `sequelize` > `npm install sequelize`
-  - Installez `sequelize-cli` > `npm install --save sequelize-cli`
   - Étant donné que les migrations sont déjà faites et les models aussi, vous devez allez dans le dossier `config` et configurer votre `config.json` pour vous connectez à votre base de données.
   J'utilise <a href="https://www.wampserver.com/">WampServer</a> pour la connexion a ma base de donnée et le panel `PhpMyAdmin` fournit avec.
   - Si comme moi vous utilisez `Wamp` rendez vous dans `PhpMyAdmin`, sinon utilisé votre gestionnaire de base de donnée favori. Créer votre bases de donnée et appelé la comme vous le souhaitez.
