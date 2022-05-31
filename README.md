@@ -19,13 +19,7 @@ Le BackEnd est développé en JavaScript à l'aide de <a href="https://nodejs.de
 
 ## Installation
   - Télécharger <a href="https://nodejs.dev/download">Node.js<a/> current version :
-  - Depuis votre terminal rendez-vous dans le dossier backend > `cd backend` :
-      - Installez `nodemon` > `npm install -g nodemon`
-      - Installez `Express.js` > `npm install --save express`
-      - Installez `multer` > `npm install --save multer`
-      - Installez `cors` > `npm install cors`
-      - Installez `bcrypt` > `npm install bcrypt`
-      - Installez `jsonwebtoken` > `npm install jsonwebtoken`
+  - Depuis votre terminal rendez-vous dans le dossier backend > `cd backend` et executer `npm install`
    
   ### Configuration de la base de données :
   Dans le terminal au dossier backend
